@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Clock, Star } 
+import { MapPin, Clock, Star } from 'lucide-react';
 import type { Trail } from '@/types';
 import { formatDistance, formatDuration, getDifficultyColor } from '@/utils/formatUtils';
 

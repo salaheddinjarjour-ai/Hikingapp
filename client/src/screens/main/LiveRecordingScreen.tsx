@@ -5,9 +5,9 @@ import { Button, MetricCard } from '@/components/ui';
 import { useTrailRecording } from '@/hooks';
 import { formatDistance, formatDuration, formatPace } from '@/utils/formatUtils';
 import { 
-  PlayArrow, Pause, Stop, Flag, Settings, Layers, MyLocation,
-  Terrain, Speed, Timer, Straighten
-} 
+  Play, Pause, Square, Flag, Settings, Layers, Locate,
+  Mountain, Gauge, Timer, Ruler
+} from 'lucide-react' 
 
 export const LiveRecordingScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -87,7 +87,7 @@ export const LiveRecordingScreen: React.FC = () => {
             onClick={() => navigate(-1)}
             className="flex items-center justify-center w-10 h-10 rounded-full bg-background-dark/80 backdrop-blur-md text-white border border-white/10 active:scale-95 transition-transform"
           >
-            <Stop className="w-5 h-5" />
+            <Square className="w-5 h-5" />
           </button>
           <div className="flex flex-col items-center">
             <div className="flex items-center gap-2 bg-primary/20 backdrop-blur-md px-3 py-1 rounded-full border border-primary/30">
@@ -108,7 +108,7 @@ export const LiveRecordingScreen: React.FC = () => {
             <Layers className="w-5 h-5" />
           </button>
           <button className="w-10 h-10 rounded-full bg-primary text-background-dark flex items-center justify-center shadow-lg active:scale-95 transition-transform font-bold">
-            <MyLocation className="w-5 h-5" />
+            <Locate className="w-5 h-5" />
           </button>
         </div>
       </div>
@@ -133,19 +133,19 @@ export const LiveRecordingScreen: React.FC = () => {
         {/* Metrics Grid */}
         <div className="grid grid-cols-3 gap-2 px-4 py-4">
           <MetricCard 
-            icon={<Straighten className="w-4 h-4" />}
+            icon={<Ruler className="w-4 h-4" />}
             value={formatDistance(distance)}
             label="Distance"
             className="bg-surface-dark"
           />
           <MetricCard 
-            icon={<Terrain className="w-4 h-4" />}
+            icon={<Mountain className="w-4 h-4" />}
             value={`${Math.round(elevation)} m`}
             label="Elevation"
             className="bg-surface-dark"
           />
           <MetricCard 
-            icon={<Speed className="w-4 h-4" />}
+            icon={<Gauge className="w-4 h-4" />}
             value={formatPace(averagePace)}
             unit="/km"
             label="Avg Pace"
@@ -177,7 +177,7 @@ export const LiveRecordingScreen: React.FC = () => {
         <div className="flex-1 flex items-center justify-center gap-4 px-6 pb-8">
           {!isRecording ? (
             <Button onClick={handleStart} className="w-full">
-              <PlayArrow className="w-6 h-6 mr-2" />
+              <Play className="w-6 h-6 mr-2" />
               Start Recording
             </Button>
           ) : (
@@ -187,7 +187,7 @@ export const LiveRecordingScreen: React.FC = () => {
                 className="w-16 h-16 rounded-full bg-surface-dark border border-white/20 flex items-center justify-center text-white hover:bg-surface-light transition-colors"
               >
                 {isPaused ? (
-                  <PlayArrow className="w-8 h-8" />
+                  <Play className="w-8 h-8" />
                 ) : (
                   <Pause className="w-8 h-8" />
                 )}
@@ -197,7 +197,7 @@ export const LiveRecordingScreen: React.FC = () => {
                 onClick={handleStop}
                 className="w-20 h-20 rounded-full bg-red-500 flex items-center justify-center text-white hover:bg-red-600 transition-colors shadow-lg"
               >
-                <Stop className="w-10 h-10" />
+                <Square className="w-10 h-10" />
               </button>
 
               <button className="w-16 h-16 rounded-full bg-surface-dark border border-white/20 flex items-center justify-center text-white hover:bg-surface-light transition-colors">

@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { clsx } from 'clsx';
-import { Map, Heart, History, User, Plus } 
+import { Map, Heart, History, User, Plus } from 'lucide-react'; 
 
 interface BottomNavigationProps {
   onRecordPress?: () => void;
