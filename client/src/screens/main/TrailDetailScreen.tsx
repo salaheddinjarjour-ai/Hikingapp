@@ -4,10 +4,10 @@ import { TopAppBar } from '@/components/layout';
 import { Button, Badge, MetricCard } from '@/components/ui';
 import { mockTrails, mockWeather } from '@/utils/mockData';
 import { formatDistance, formatDuration, formatElevation, formatDate, getDifficultyColor } from '@/utils/formatUtils';
-import { 
-  MapPin, Clock, Star, Terrain, Cloud, Wind, Droplets, 
-  ChevronLeft, ChevronRight, Heart, Share, Navigation 
-} 
+import {
+  MapPin, Clock, Star, Mountain, Cloud, Wind, Droplets,
+  ChevronLeft, ChevronRight, Heart, Share, Navigation
+} from 'lucide-react';
 
 export const TrailDetailScreen: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -92,7 +92,7 @@ export const TrailDetailScreen: React.FC = () => {
         {/* Metrics */}
         <div className="grid grid-cols-3 gap-3 mb-6">
           <MetricCard 
-            icon={<Terrain className="w-5 h-5" />}
+            icon={<Mountain className="w-5 h-5" />}
             value={formatDistance(trail.distance)}
             label="Distance"
           />
