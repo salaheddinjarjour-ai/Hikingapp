@@ -7,29 +7,42 @@ interface AuthState {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  isInitialized: boolean;
   setUser: (user: User | null) => void;
   setToken: (token: string | null) => void;
   login: (user: User, token: string) => void;
   logout: () => void;
   setLoading: (loading: boolean) => void;
+  initialize: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       token: null,
       isAuthenticated: false,
       isLoading: true,
+      isInitialized: false,
       setUser: (user) => set({ user, isAuthenticated: !!user }),
       setToken: (token) => set({ token }),
       login: (user, token) => set({ user, token, isAuthenticated: true, isLoading: false }),
       logout: () => set({ user: null, token: null, isAuthenticated: false, isLoading: false }),
       setLoading: (isLoading) => set({ isLoading }),
+      initialize: () => {
+        const state = get();
+        if (!state.isInitialized) {
+          set({ isLoading: false, isInitialized: true });
+        }
+      },
     }),
     {
       name: 'trailsense-auth',
       partialize: (state) => ({ token: state.token, user: state.user, isAuthenticated: state.isAuthenticated }),
+      onRehydrateStorage: () => () => {
+        // Rehydration complete - the store will now have the persisted state
+        // The initialize() function in App.tsx will set isLoading to false
+      },
     }
   )
 );
