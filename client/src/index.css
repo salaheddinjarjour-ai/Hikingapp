@@ -1,3 +1,5 @@
+@import 'leaflet/dist/leaflet.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -110,28 +112,6 @@
   animation: pulse 2s infinite;
 }
 
-.mapboxgl-ctrl-group {
-  background: rgba(26, 29, 26, 0.95) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 12px !important;
-}
-
-.mapboxgl-ctrl-group button {
-  width: 40px !important;
-  height: 40px !important;
-}
-
-.mapboxgl-ctrl-group button + button {
-  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-
-.mapboxgl-ctrl-icon {
-  filter: invert(1);
-}
-
-.mapboxgl-ctrl-attrib {
-  display: none !important;
-}
 
 .trail-marker {
   transition: transform 0.2s ease;
