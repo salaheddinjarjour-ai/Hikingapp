@@ -44,6 +44,11 @@ const LoadingScreen: React.FC = () => {
 export default function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const isLoading = useAuthStore((state) => state.isLoading);
+  const initialize = useAuthStore((state) => state.initialize);
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
   if (isLoading) {
     return <LoadingScreen />;
