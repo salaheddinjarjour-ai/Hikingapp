@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import type { GeoPosition } from '@/types';
 
 interface UseGeolocationOptions {
@@ -28,7 +28,8 @@ export function useGeolocation(options: UseGeolocationOptions = {}): UseGeolocat
   const [position, setPosition] = useState<GeoPosition | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [watchId, setWatchId] = useState<number | null>(null);
+  const watchIdRef = useRef<number | null>(null);
+  const isWatchingRef = useRef(false);
 
   const requestPermission = useCallback(async (): Promise<boolean> => {
     if (!navigator.geolocation) {
@@ -52,14 +53,14 @@ export function useGeolocation(options: UseGeolocationOptions = {}): UseGeolocat
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-          const position: GeoPosition = {
+          const geoPosition: GeoPosition = {
             latitude: pos.coords.latitude,
             longitude: pos.coords.longitude,
             altitude: pos.coords.altitude ?? undefined,
             accuracy: pos.coords.accuracy ?? undefined,
             timestamp: pos.timestamp,
           };
-          resolve(position);
+          resolve(geoPosition);
         },
         (err) => reject(err),
         { enableHighAccuracy, maximumAge, timeout }
@@ -68,8 +69,14 @@ export function useGeolocation(options: UseGeolocationOptions = {}): UseGeolocat
   }, [enableHighAccuracy, maximumAge, timeout]);
 
   const startWatching = useCallback(() => {
-    if (watchId !== null) return;
+    if (isWatchingRef.current) return;
+    if (!navigator.geolocation) {
+      setError('Geolocation is not supported');
+      return;
+    }
 
+    isWatchingRef.current = true;
+    
     const id = navigator.geolocation.watchPosition(
       (pos) => {
         const newPosition: GeoPosition = {
@@ -90,49 +97,57 @@ export function useGeolocation(options: UseGeolocationOptions = {}): UseGeolocat
       { enableHighAccuracy, maximumAge, timeout }
     );
 
-    setWatchId(id);
-  }, [enableHighAccuracy, maximumAge, timeout, watchId]);
+    watchIdRef.current = id;
+  }, [enableHighAccuracy, maximumAge, timeout]);
 
   const stopWatching = useCallback(() => {
-    if (watchId !== null) {
-      navigator.geolocation.clearWatch(watchId);
-      setWatchId(null);
+    if (watchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(watchIdRef.current);
+      watchIdRef.current = null;
+      isWatchingRef.current = false;
     }
-  }, [watchId]);
+  }, []);
 
   useEffect(() => {
+    let mounted = true;
+
     const init = async () => {
       const hasPermission = await requestPermission();
-      if (!hasPermission) {
-        setIsLoading(false);
+      if (!hasPermission || !mounted) {
+        if (mounted) setIsLoading(false);
         return;
       }
 
       try {
         const pos = await getCurrentPosition();
-        setPosition(pos);
-        setError(null);
+        if (mounted) {
+          setPosition(pos);
+          setError(null);
+        }
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to get location');
+        if (mounted) {
+          setError(err instanceof Error ? err.message : 'Failed to get location');
+        }
       } finally {
-        setIsLoading(false);
+        if (mounted) setIsLoading(false);
       }
     };
 
     init();
 
     return () => {
-      if (watchId !== null) {
-        navigator.geolocation.clearWatch(watchId);
-      }
+      mounted = false;
+      stopWatching();
     };
-  }, []);
+  }, [requestPermission, getCurrentPosition, stopWatching]);
 
   useEffect(() => {
-    if (watch && isLoading === false) {
+    if (watch && !isLoading && !isWatchingRef.current) {
       startWatching();
+    } else if (!watch && isWatchingRef.current) {
+      stopWatching();
     }
-  }, [watch]);
+  }, [watch, isLoading, startWatching, stopWatching]);
 
   return {
     position,

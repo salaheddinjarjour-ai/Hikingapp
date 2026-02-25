@@ -93,3 +93,50 @@
     background-size: 40px 40px;
   }
 }
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+.user-location-marker {
+  animation: pulse 2s infinite;
+}
+
+.mapboxgl-ctrl-group {
+  background: rgba(26, 29, 26, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+}
+
+.mapboxgl-ctrl-group button {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.mapboxgl-ctrl-group button + button {
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.mapboxgl-ctrl-icon {
+  filter: invert(1);
+}
+
+.mapboxgl-ctrl-attrib {
+  display: none !important;
+}
+
+.trail-marker {
+  transition: transform 0.2s ease;
+}
+
+.trail-marker:hover {
+  transform: scale(1.2);
+}

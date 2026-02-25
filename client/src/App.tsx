@@ -10,7 +10,8 @@ import {
   LiveRecordingScreen, 
   SavedRoutesScreen, 
   ProfileScreen,
-  HistoryScreen
+  HistoryScreen,
+  ActivitySummaryScreen
 } from '@/screens/main';
 
 const LoadingScreen: React.FC = () => {
@@ -71,6 +72,7 @@ export default function App() {
       </Route>
       <Route path="/trail/:id" element={<TrailDetailScreen />} />
       <Route path="/record" element={<LiveRecordingScreen />} />
+      <Route path="/activity/summary" element={<ActivitySummaryScreen />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
