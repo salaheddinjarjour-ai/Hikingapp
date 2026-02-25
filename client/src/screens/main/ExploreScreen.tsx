@@ -169,12 +169,6 @@ export const ExploreScreen: React.FC = () => {
         </div>
       </div>
 
-      <MapControls
-        onLocate={handleLocate}
-        showLayerToggle={true}
-        className="right-4 top-40 z-20"
-      />
-
       {geoError && (
         <div className="absolute bottom-48 left-4 right-4 z-20">
           <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-3">
