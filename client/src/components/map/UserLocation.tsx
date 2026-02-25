@@ -1,152 +1,53 @@
-import { useEffect, useRef } from 'react';
-import mapboxgl from 'mapbox-gl';
-import { useMap } from './MapContainer';
-import type { GeoPosition } from '@/types';
+import { Marker, Circle } from 'react-leaflet';
+import L from 'leaflet';
+import { useGeolocation } from '@/hooks/useGeolocation';
 
-interface UserLocationProps {
-  position: GeoPosition | null;
-  showAccuracy?: boolean;
-  followUser?: boolean;
-  color?: string;
+export function UserLocation() {
+  const { position } = useGeolocation();
+
+  if (!position) return null;
+
+  const lat = position.latitude;
+  const lng = position.longitude;
+  const accuracy = position.accuracy ?? 0;
+
+  const userIcon = L.divIcon({
+    className: 'user-location',
+    html: `
+      <div style="
+        width: 20px; height: 20px;
+        background: #3b82f6;
+        border: 4px solid white;
+        border-radius: 50%;
+        box-shadow: 0 0 15px rgba(59,130,246,0.8);
+        animation: pulse 2s infinite;
+      "></div>
+      <style>
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.3); opacity: 0.7; }
+        }
+      </style>
+    `,
+    iconSize: [20, 20],
+    iconAnchor: [10, 10],
+  });
+
+  return (
+    <>
+      {accuracy > 0 && (
+        <Circle
+          center={[lat, lng]}
+          radius={accuracy}
+          pathOptions={{
+            color: '#3b82f6',
+            fillColor: '#3b82f6',
+            fillOpacity: 0.1,
+            weight: 1,
+          }}
+        />
+      )}
+      <Marker position={[lat, lng]} icon={userIcon} />
+    </>
+  );
 }
-
-export const UserLocation: React.FC<UserLocationProps> = ({
-  position,
-  showAccuracy = true,
-  followUser = false,
-  color = '#3b82f6',
-}) => {
-  const { map, isLoaded } = useMap();
-  const markerRef = useRef<mapboxgl.Marker | null>(null);
-  const accuracyCircleRef = useRef<mapboxgl.GeoJSONSource | null>(null);
-
-  useEffect(() => {
-    if (!map || !isLoaded || !position) return;
-
-    const el = document.createElement('div');
-    el.className = 'user-location-marker';
-    el.innerHTML = `
-      <div class="relative">
-        <div class="absolute inset-0 rounded-full animate-ping opacity-75" style="background-color: ${color}; width: 32px; height: 32px; margin: -4px;"></div>
-        <div class="relative rounded-full border-2 border-white" style="background-color: ${color}; width: 24px; height: 24px;"></div>
-      </div>
-    `;
-
-    if (markerRef.current) {
-      markerRef.current.remove();
-    }
-
-    markerRef.current = new mapboxgl.Marker(el)
-      .setLngLat([position.longitude, position.latitude])
-      .addTo(map);
-
-    if (showAccuracy && position.accuracy) {
-      const accuracyId = 'user-accuracy-circle';
-      
-      if (map.getLayer(accuracyId)) {
-        map.removeLayer(accuracyId);
-      }
-      if (map.getSource(accuracyId)) {
-        map.removeSource(accuracyId);
-      }
-
-      map.addSource(accuracyId, {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [position.longitude, position.latitude],
-          },
-          properties: {
-            radius: position.accuracy,
-          },
-        },
-      });
-
-      map.addLayer({
-        id: accuracyId,
-        type: 'circle',
-        source: accuracyId,
-        paint: {
-          'circle-radius': {
-            stops: [[0, 0], [20, position.accuracy]],
-            base: 2,
-          },
-          'circle-color': color,
-          'circle-opacity': 0.15,
-          'circle-stroke-color': color,
-          'circle-stroke-opacity': 0.3,
-          'circle-stroke-width': 1,
-        },
-      });
-
-      accuracyCircleRef.current = map.getSource(accuracyId) as mapboxgl.GeoJSONSource;
-    }
-
-    if (followUser) {
-      map.flyTo({
-        center: [position.longitude, position.latitude],
-        zoom: 16,
-        duration: 1000,
-      });
-    }
-
-    return () => {
-      if (markerRef.current) {
-        markerRef.current.remove();
-        markerRef.current = null;
-      }
-      const accuracyId = 'user-accuracy-circle';
-      if (map.getLayer(accuracyId)) {
-        map.removeLayer(accuracyId);
-      }
-      if (map.getSource(accuracyId)) {
-        map.removeSource(accuracyId);
-      }
-    };
-  }, [map, isLoaded, position, showAccuracy, followUser, color]);
-
-  return null;
-};
-
-interface UserLocationPulsingDotProps {
-  coordinates: [number, number];
-  size?: number;
-  color?: string;
-}
-
-export const UserLocationPulsingDot: React.FC<UserLocationPulsingDotProps> = ({
-  coordinates,
-  size = 20,
-  color = '#3b82f6',
-}) => {
-  const { map, isLoaded } = useMap();
-  const markerRef = useRef<mapboxgl.Marker | null>(null);
-
-  useEffect(() => {
-    if (!map || !isLoaded) return;
-
-    const el = document.createElement('div');
-    el.style.width = `${size}px`;
-    el.style.height = `${size}px`;
-    el.style.borderRadius = '50%';
-    el.style.backgroundColor = color;
-    el.style.border = '3px solid white';
-    el.style.boxShadow = `0 0 0 0 ${color}`;
-    el.style.animation = 'pulse 2s infinite';
-    el.style.cursor = 'pointer';
-
-    markerRef.current = new mapboxgl.Marker(el)
-      .setLngLat(coordinates)
-      .addTo(map);
-
-    return () => {
-      if (markerRef.current) {
-        markerRef.current.remove();
-      }
-    };
-  }, [map, isLoaded, coordinates, size, color]);
-
-  return null;
-};

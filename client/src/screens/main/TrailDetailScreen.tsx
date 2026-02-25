@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { MapContainer, TrailPath } from '@/components/map';
+import { MapContainer, TrailPath, FitBounds } from '@/components/map';
 import { Button, Badge, MetricCard } from '@/components/ui';
 import { getTrailById } from '@/data/sampleTrails';
 import { mockWeather } from '@/utils/mockData';
@@ -63,6 +63,16 @@ export const TrailDetailScreen: React.FC = () => {
   }
 
   const bounds = getBoundsFromCoordinates(trail.coordinates);
+  const leafletBounds = useMemo(() => {
+    return [
+      [bounds[0][1], bounds[0][0]],
+      [bounds[1][1], bounds[1][0]],
+    ] as [[number, number], [number, number]];
+  }, [bounds]);
+
+  const trailPathPositions = useMemo(() => {
+    return trail.coordinates.map(([lng, lat]) => [lat, lng] as [number, number]);
+  }, [trail.coordinates]);
 
   return (
     <div className="flex flex-col h-full bg-background-dark">
@@ -223,15 +233,12 @@ export const TrailDetailScreen: React.FC = () => {
             <div className="px-4 pb-8">
               <div className="h-64 rounded-xl overflow-hidden border border-white/10 mb-4">
                 <MapContainer
-                  bounds={bounds}
+                  center={trailPathPositions[0] ?? [37.7749, -122.4194]}
+                  zoom={13}
                   className="absolute inset-0"
-                  showControls={false}
                 >
-                  <TrailPath
-                    coordinates={trail.coordinates}
-                    color="#13ec25"
-                    width={4}
-                  />
+                  <FitBounds bounds={leafletBounds} />
+                  <TrailPath positions={trailPathPositions} color="#13ec25" weight={4} />
                 </MapContainer>
               </div>
               <div className="flex gap-2">

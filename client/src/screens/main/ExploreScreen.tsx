@@ -1,6 +1,8 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, UserLocation, MapControls, TrailMarker } from '@/components/map';
+import { Marker } from 'react-leaflet';
+import L from 'leaflet';
+import { MapContainer, UserLocation, MapControls, TrailPath } from '@/components/map';
 import { TrailCard } from '@/components/ui';
 import { sampleTrails } from '@/data/sampleTrails';
 import { useGeolocation } from '@/hooks';
@@ -12,7 +14,7 @@ export const ExploreScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [selectedTrail, setSelectedTrail] = useState<Trail | null>(null);
-  const [mapCenter, setMapCenter] = useState<[number, number]>([-122.4194, 37.7749]);
+  const [mapCenter, setMapCenter] = useState<[number, number]>([37.7749, -122.4194]);
   const { position, error: geoError, isLoading: geoLoading } = useGeolocation();
   const trailCardRef = useRef<HTMLDivElement>(null);
 
@@ -23,18 +25,18 @@ export const ExploreScreen: React.FC = () => {
 
   useEffect(() => {
     if (position && !geoLoading) {
-      setMapCenter([position.longitude, position.latitude]);
+      setMapCenter([position.latitude, position.longitude]);
     }
   }, [position, geoLoading]);
 
   const handleTrailPress = useCallback((trail: Trail) => {
     setSelectedTrail(trail);
-    setMapCenter(trail.location.coordinates);
+    setMapCenter([trail.location.coordinates[1], trail.location.coordinates[0]]);
   }, []);
 
   const handleLocate = useCallback(() => {
     if (position) {
-      setMapCenter([position.longitude, position.latitude]);
+      setMapCenter([position.latitude, position.longitude]);
     }
   }, [position]);
 
@@ -47,30 +49,63 @@ export const ExploreScreen: React.FC = () => {
     setSelectedTrail(null);
   }, []);
 
+  const createTrailIcon = useCallback((color: string) => {
+    return L.divIcon({
+      className: 'trail-marker',
+      html: `<div style="
+        width: 20px; height: 20px;
+        background: ${color};
+        border: 3px solid white;
+        border-radius: 50%;
+        box-shadow: 0 0 10px ${color};
+      "></div>`,
+      iconSize: [20, 20],
+      iconAnchor: [10, 10],
+    });
+  }, []);
+
+  const selectedTrailPath = useMemo(() => {
+    if (!selectedTrail) return [];
+    return selectedTrail.coordinates.map(([lng, lat]) => [lat, lng] as [number, number]);
+  }, [selectedTrail]);
+
   return (
     <div className="flex flex-col h-full bg-black">
       <MapContainer
         center={mapCenter}
         zoom={13}
         className="absolute inset-0 z-0"
-        showControls={false}
       >
-        {position && !geoLoading && (
-          <UserLocation 
-            position={position} 
-            showAccuracy={true}
-          />
+        <UserLocation />
+
+        {filteredTrails.map((trail) => {
+          const markerPosition: [number, number] = [
+            trail.location.coordinates[1],
+            trail.location.coordinates[0],
+          ];
+          const markerColor = selectedTrail?.id === trail.id ? '#13ec25' : '#22c55e';
+
+          return (
+            <Marker
+              key={trail.id}
+              position={markerPosition}
+              icon={createTrailIcon(markerColor)}
+              eventHandlers={{
+                click: () => handleTrailPress(trail),
+              }}
+            />
+          );
+        })}
+
+        {selectedTrailPath.length > 1 && (
+          <TrailPath positions={selectedTrailPath} color="#13ec25" weight={4} />
         )}
 
-        {filteredTrails.map(trail => (
-          <TrailMarker
-            key={trail.id}
-            coordinates={trail.location.coordinates}
-            label={trail.name}
-            color={selectedTrail?.id === trail.id ? '#13ec25' : '#22c55e'}
-            onClick={() => handleTrailPress(trail)}
-          />
-        ))}
+        <MapControls
+          onLocate={handleLocate}
+          showLayerToggle={true}
+          className="right-4 top-40 z-20"
+        />
       </MapContainer>
 
       <div className="absolute top-0 left-0 right-0 z-20 pt-14 px-4 pb-6 bg-gradient-to-b from-black/90 via-black/60 to-transparent pointer-events-none">

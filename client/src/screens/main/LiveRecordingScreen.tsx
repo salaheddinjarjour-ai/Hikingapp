@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, UserLocation, TrailPath, MapControls } from '@/components/map';
+import { MapContainer, UserLocation, TrailPath } from '@/components/map';
 import { Button, MetricCard } from '@/components/ui';
 import { useTrailRecording } from '@/hooks';
 import { formatDistance, formatDuration, formatPace } from '@/utils/formatUtils';
@@ -14,7 +14,7 @@ export const LiveRecordingScreen: React.FC = () => {
   const navigate = useNavigate();
   const [showStopConfirm, setShowStopConfirm] = useState(false);
   const [waypoints, setWaypoints] = useState<Array<{ position: GeoPosition; name: string }>>([]);
-  const [mapCenter, setMapCenter] = useState<[number, number]>([-122.4194, 37.7749]);
+  const [mapCenter, setMapCenter] = useState<[number, number]>([37.7749, -122.4194]);
   const [followUser, setFollowUser] = useState(true);
   
   const {
@@ -88,7 +88,7 @@ export const LiveRecordingScreen: React.FC = () => {
   const handleLocate = useCallback(() => {
     if (positions.length > 0) {
       const lastPos = positions[positions.length - 1];
-      setMapCenter([lastPos.longitude, lastPos.latitude]);
+      setMapCenter([lastPos.latitude, lastPos.longitude]);
       setFollowUser(true);
     }
   }, [positions]);
@@ -96,12 +96,11 @@ export const LiveRecordingScreen: React.FC = () => {
   useEffect(() => {
     if (positions.length > 0 && followUser) {
       const lastPos = positions[positions.length - 1];
-      setMapCenter([lastPos.longitude, lastPos.latitude]);
+      setMapCenter([lastPos.latitude, lastPos.longitude]);
     }
   }, [positions, followUser]);
 
-  const trailCoordinates = positions.map(p => [p.longitude, p.latitude] as [number, number]);
-  const currentPosition = positions.length > 0 ? positions[positions.length - 1] : null;
+  const trailCoordinates = positions.map(p => [p.latitude, p.longitude] as [number, number]);
 
   return (
     <div className="flex flex-col h-full bg-background-dark">
@@ -110,22 +109,11 @@ export const LiveRecordingScreen: React.FC = () => {
           center={mapCenter}
           zoom={16}
           className="absolute inset-0 z-0"
-          showControls={false}
         >
-          {currentPosition && (
-            <UserLocation 
-              position={currentPosition}
-              showAccuracy={true}
-              followUser={false}
-            />
-          )}
-          
+          <UserLocation />
+
           {trailCoordinates.length >= 2 && (
-            <TrailPath
-              coordinates={trailCoordinates}
-              color="#13ec25"
-              width={4}
-            />
+            <TrailPath positions={trailCoordinates} color="#13ec25" weight={4} />
           )}
         </MapContainer>
 

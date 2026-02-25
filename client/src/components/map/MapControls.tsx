@@ -1,6 +1,7 @@
-import React from 'react';
-import { useMap } from './MapContainer';
+import React, { useEffect, useRef, useState } from 'react';
+import L from 'leaflet';
 import { Plus, Minus, Compass, Layers, Locate } from 'lucide-react';
+import { useLeafletMap } from './MapContainer';
 
 interface MapControlsProps {
   onLocate?: () => void;
@@ -13,42 +14,51 @@ export const MapControls: React.FC<MapControlsProps> = ({
   showLayerToggle = true,
   className = '',
 }) => {
-  const { map, isLoaded } = useMap();
-  const [mapStyle, setMapStyle] = React.useState<'dark' | 'satellite'>('dark');
+  const map = useLeafletMap();
+  const [mapStyle, setMapStyle] = useState<'dark' | 'light'>('dark');
+  const tileLayerRef = useRef<L.TileLayer | null>(null);
+
+  const applyTileLayer = (url: string) => {
+    if (!map) return;
+    map.eachLayer((layer) => {
+      if (layer instanceof L.TileLayer) {
+        map.removeLayer(layer);
+      }
+    });
+    tileLayerRef.current = L.tileLayer(url);
+    tileLayerRef.current.addTo(map);
+  };
+
+  useEffect(() => {
+    if (!map) return;
+    if (mapStyle === 'dark') {
+      applyTileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png');
+    } else {
+      applyTileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+    }
+  }, [map, mapStyle]);
 
   const handleZoomIn = () => {
     if (map) {
-      map.zoomIn({ duration: 300 });
+      map.zoomIn();
     }
   };
 
   const handleZoomOut = () => {
     if (map) {
-      map.zoomOut({ duration: 300 });
+      map.zoomOut();
     }
   };
 
   const handleResetBearing = () => {
     if (map) {
-      map.resetNorthPitch({ duration: 300 });
+      map.setView(map.getCenter(), map.getZoom(), { animate: true });
     }
   };
 
   const toggleMapStyle = () => {
-    if (!map) return;
-    
-    const newStyle = mapStyle === 'dark' ? 'satellite' : 'dark';
-    setMapStyle(newStyle);
-    
-    map.setStyle(
-      newStyle === 'dark' 
-        ? 'mapbox://styles/mapbox/dark-v11'
-        : 'mapbox://styles/mapbox/satellite-streets-v12',
-      { diff: false }
-    );
+    setMapStyle((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
-
-  if (!isLoaded) return null;
 
   return (
     <div className={`absolute flex flex-col gap-2 ${className}`}>

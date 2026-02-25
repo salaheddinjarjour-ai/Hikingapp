@@ -1,6 +1,6 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { MapContainer, TrailPath } from '@/components/map';
+import { MapContainer, TrailPath, FitBounds } from '@/components/map';
 import { Button, MetricCard } from '@/components/ui';
 import { formatDistance, formatDuration, formatPace, formatCalories, formatDate, formatTime } from '@/utils/formatUtils';
 import { getBoundsFromCoordinates } from '@/utils/geoUtils';
@@ -43,6 +43,18 @@ export const ActivitySummaryScreen: React.FC = () => {
   const bounds = useMemo(() => {
     if (activityData.positions.length < 2) return undefined;
     return getBoundsFromCoordinates(activityData.positions);
+  }, [activityData.positions]);
+
+  const leafletBounds = useMemo(() => {
+    if (!bounds) return undefined;
+    return [
+      [bounds[0][1], bounds[0][0]],
+      [bounds[1][1], bounds[1][0]],
+    ] as [[number, number], [number, number]];
+  }, [bounds]);
+
+  const pathPositions = useMemo(() => {
+    return activityData.positions.map(([lng, lat]) => [lat, lng] as [number, number]);
   }, [activityData.positions]);
 
   const caloriesBurned = useMemo(() => {
@@ -95,15 +107,12 @@ export const ActivitySummaryScreen: React.FC = () => {
       <div className="relative h-64 shrink-0">
         {bounds ? (
           <MapContainer
-            bounds={bounds}
+            center={pathPositions[0] ?? [37.7749, -122.4194]}
+            zoom={13}
             className="absolute inset-0 z-0"
-            showControls={false}
           >
-            <TrailPath
-              coordinates={activityData.positions}
-              color="#13ec25"
-              width={4}
-            />
+            {leafletBounds && <FitBounds bounds={leafletBounds} />}
+            <TrailPath positions={pathPositions} color="#13ec25" weight={4} />
           </MapContainer>
         ) : (
           <div className="absolute inset-0 bg-surface-dark flex items-center justify-center">

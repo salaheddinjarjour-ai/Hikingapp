@@ -1,5 +1,3 @@
-export const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || 'pk.eyJ1IjoiZGVtby11c2VyIiwiYSI6ImNscXh5ejAwMDAwMDcybnBnOTFkNWZqNmYifQ.demo';
-
 export const DEFAULT_MAP_CENTER: [number, number] = [-119.4194, 37.9658]; // Yosemite
 export const DEFAULT_MAP_ZOOM = 11;
 
