@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Trail Recording</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec25",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#102212",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "sans": ["Space Grotesk", "sans-serif"] 
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        /* Custom scrollbar hide for cleaner mobile look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 h-screen w-full overflow-hidden flex flex-col antialiased">
+<!-- Top Half: Map View -->
+<div class="relative w-full h-[55%] bg-slate-800 shrink-0 overflow-hidden">
+<!-- Map Background Image -->
+<img alt="Dark topographic map background pattern" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay" data-alt="Dark topographic map background pattern" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwfyVH_SG78IY0i_Y2D6Ppp0uFQGv8_22kCRuZB8lthrdJ94hsNea8c26TgEGbDIX9PXnU_CxUBcPd6zNPEHjwy4mS9Nmn8WnV8Y5-fAODG4ZCsiNhfJsSjFP1nJplGq8o5Cn96psxZwWfyYAEFrYC6UUwO-ZJGYi6dmdMtS0mpdTg78c-nd0_wXDALUjAu8ldWdxqfmYUhOcCmy--GVPFuZfJkFRs7gGjj4EnxRL2110nDUBHWFgdXg1SQp4wN-QL2HmwzWfe7uih"/>
+<div class="absolute inset-0 bg-gradient-to-b from-background-dark/30 to-transparent pointer-events-none"></div>
+<!-- Simulated Map Elements -->
+<div class="absolute inset-0 flex items-center justify-center">
+<!-- Path Line (SVG) -->
+<svg class="absolute w-full h-full" style="transform: scale(1.5);">
+<path d="M50,300 Q150,250 200,200 T350,150 T500,100" fill="none" stroke="#22d3ee" stroke-dasharray="10, 5" stroke-linecap="round" stroke-width="4"></path>
+<!-- Current Position Pulsing Dot -->
+<circle class="animate-pulse shadow-[0_0_20px_#13ec25]" cx="200" cy="200" fill="#13ec25" r="8">
+<animate attributename="r" dur="2s" repeatcount="indefinite" values="8;12;8"></animate>
+<animate attributename="opacity" dur="2s" repeatcount="indefinite" values="1;0.5;1"></animate>
+</circle>
+<circle cx="200" cy="200" fill="#ffffff" r="4"></circle>
+</svg>
+</div>
+<!-- Top Header Overlay -->
+<div class="absolute top-0 left-0 right-0 p-4 pt-12 flex justify-between items-start z-10 bg-gradient-to-b from-black/80 to-transparent">
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-background-dark/80 backdrop-blur-md text-white border border-white/10 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex flex-col items-center">
+<div class="flex items-center gap-2 bg-primary/20 backdrop-blur-md px-3 py-1 rounded-full border border-primary/30">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-xs font-bold text-primary tracking-wider uppercase">Recording</span>
+</div>
+</div>
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-background-dark/80 backdrop-blur-md text-white border border-white/10 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<!-- Map Controls -->
+<div class="absolute bottom-6 right-4 flex flex-col gap-3">
+<button class="w-10 h-10 rounded-full bg-slate-800/90 text-white flex items-center justify-center shadow-lg border border-white/10 active:bg-slate-700">
+<span class="material-symbols-outlined text-[20px]">layers</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-primary text-background-dark flex items-center justify-center shadow-lg active:scale-95 transition-transform font-bold">
+<span class="material-symbols-outlined text-[20px]">my_location</span>
+</button>
+</div>
+</div>
+<!-- Bottom Half: Dashboard -->
+<div class="flex-1 bg-background-dark flex flex-col relative z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] rounded-t-3xl -mt-4 border-t border-white/5">
+<!-- Drag Handle / Visual Indicator -->
+<div class="w-full flex justify-center pt-3 pb-1">
+<div class="w-12 h-1.5 rounded-full bg-white/10"></div>
+</div>
+<!-- Notification Banner -->
+<div class="px-6 py-2">
+<div class="flex items-center gap-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 text-yellow-400">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<span class="text-sm font-medium tracking-wide">Steep Slope Ahead (22%)</span>
+</div>
+</div>
+<!-- Metrics Grid -->
+<div class="flex-1 grid grid-cols-2 gap-4 px-6 py-2 overflow-y-auto no-scrollbar">
+<!-- Metric 1: Duration -->
+<div class="flex flex-col justify-center p-4 rounded-xl bg-white/5 border border-white/5">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-white/50 text-[18px]">schedule</span>
+<span class="text-xs font-medium text-white/50 uppercase tracking-wider">Duration</span>
+</div>
+<span class="text-3xl font-bold text-white tracking-tighter">01:24:15</span>
+</div>
+<!-- Metric 2: Distance -->
+<div class="flex flex-col justify-center p-4 rounded-xl bg-white/5 border border-white/5">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-white/50 text-[18px]">straighten</span>
+<span class="text-xs font-medium text-white/50 uppercase tracking-wider">Distance</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-bold text-white tracking-tighter">5.2</span>
+<span class="text-base text-white/60 font-medium">km</span>
+</div>
+</div>
+<!-- Metric 3: Pace -->
+<div class="flex flex-col justify-center p-4 rounded-xl bg-white/5 border border-white/5 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-16 h-16 bg-primary/10 rounded-bl-full -mr-4 -mt-4"></div>
+<div class="flex items-center gap-2 mb-1 relative z-10">
+<span class="material-symbols-outlined text-primary/80 text-[18px]">speed</span>
+<span class="text-xs font-medium text-primary/80 uppercase tracking-wider">Avg Pace</span>
+</div>
+<div class="flex items-baseline gap-1 relative z-10">
+<span class="text-3xl font-bold text-primary tracking-tighter">12'30"</span>
+<span class="text-base text-primary/60 font-medium">/km</span>
+</div>
+</div>
+<!-- Metric 4: Vertical Speed -->
+<div class="flex flex-col justify-center p-4 rounded-xl bg-white/5 border border-white/5">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-white/50 text-[18px]">altitude</span>
+<span class="text-xs font-medium text-white/50 uppercase tracking-wider">Vert Speed</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-bold text-white tracking-tighter">+450</span>
+<span class="text-base text-white/60 font-medium">m/h</span>
+</div>
+</div>
+</div>
+<!-- Action Bar (Fixed Bottom) -->
+<div class="px-6 pb-8 pt-4 bg-background-dark/95 backdrop-blur-sm border-t border-white/5">
+<div class="flex items-center gap-4">
+<!-- Add Waypoint Button -->
+<button class="flex-1 h-14 bg-white/10 hover:bg-white/15 active:bg-white/20 text-white rounded-full flex items-center justify-center gap-2 transition-colors border border-white/5">
+<span class="material-symbols-outlined">add_location_alt</span>
+<span class="font-bold tracking-wide">Waypoint</span>
+</button>
+<!-- Pause/Stop Button -->
+<button class="h-16 w-16 rounded-full bg-red-500/10 border-2 border-red-500 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all active:scale-95 shadow-[0_0_15px_rgba(239,68,68,0.3)]">
+<span class="material-symbols-outlined text-[32px] font-variation-settings-fill">pause</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Bar (Contextual for Recording Mode - Minimized or specific) -->
+<!-- Reusing structure but simplified for recording mode as is common in fitness apps -->
+<div class="hidden"> <!-- Hidden for this specific "Recording Mode" view as requested focus is dashboard, but kept in code structure if needed -->
+<div class="flex gap-2 border-t border-[#28392a] bg-[#1c271c] px-4 pb-3 pt-2">
+<!-- Nav Items... -->
+</div>
+</div>
+</body></html>

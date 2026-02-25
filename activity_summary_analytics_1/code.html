@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Activity Summary &amp; Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec25",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#102212",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2e1d",
+                        "neutral-light": "#e2e8e2",
+                        "neutral-dark": "#2a3d2c",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for horizontal scrolling */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="relative flex h-full min-h-screen w-full flex-col mx-auto max-w-md bg-background-light dark:bg-background-dark shadow-2xl overflow-y-auto pb-24">
+<!-- Top Bar -->
+<div class="sticky top-0 z-20 flex items-center justify-between bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm p-4 border-b border-neutral-light dark:border-neutral-dark">
+<div class="flex size-10 items-center justify-center rounded-full bg-white dark:bg-surface-dark shadow-sm">
+<!-- Placeholder for app logo or simple back -->
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back</span>
+</div>
+<h2 class="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Summary</h2>
+<button class="flex size-10 items-center justify-center rounded-full bg-neutral-light/50 dark:bg-neutral-dark/50 hover:bg-neutral-light dark:hover:bg-neutral-dark transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">close</span>
+</button>
+</div>
+<!-- Header -->
+<div class="px-6 pt-6 pb-2 text-center">
+<div class="inline-flex items-center justify-center gap-1 bg-primary/20 dark:bg-primary/10 px-3 py-1 rounded-full mb-3">
+<span class="material-symbols-outlined text-green-700 dark:text-green-400 text-sm" style="font-size: 16px;">verified</span>
+<span class="text-green-800 dark:text-green-300 text-xs font-bold uppercase tracking-wider">Completed</span>
+</div>
+<h1 class="text-4xl font-bold leading-none tracking-tight text-slate-900 dark:text-white mb-2">Trail Completed!</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Mount Rainier Loop • Today, 10:42 AM</p>
+</div>
+<!-- Map Visualization -->
+<div class="px-4 py-4">
+<div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-md bg-neutral-light dark:bg-neutral-dark group">
+<img alt="Topographic map view of the trail with green GPS path overlay" class="h-full w-full object-cover opacity-90 dark:opacity-80 transition-transform duration-700 group-hover:scale-105" data-alt="Topographic map visualization" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCCna2waxLfZ53yIwtl_mLtdsiK6YhDFovy-WsXnw-7QZ6imaN5gken29P5fJPSchsU7L-Z-zUl_Rc142Z-M_q9Mmh7kssIhkHkhF1Z6T9Z07L9pcYIvxhvM_pVyGvhDc_Ap5v21xpJUvDLLIJocnirVBa5zhURDsh_IFA4o3TigyG7hHr5RtAJOswoP-yUVnEGj2IA91CzHcbb0hHyCSLgF2BV-y4cfe8_MWoVqCldKsNR79whOjxUGsmn50vWotkW9qKYs17W82O"/>
+<!-- GPS Track Overlay Simulation -->
+<div class="absolute inset-0 pointer-events-none">
+<svg class="w-full h-full drop-shadow-lg" fill="none" viewbox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<path d="M50 250 C 100 240, 150 200, 180 150 C 210 100, 250 80, 300 90 C 330 96, 360 120, 350 50" stroke="#13ec25" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path>
+<!-- Start Point -->
+<circle cx="50" cy="250" fill="white" r="6" stroke="#13ec25" stroke-width="3"></circle>
+<!-- End Point -->
+<circle cx="350" cy="50" fill="#13ec25" r="6" stroke="white" stroke-width="2"></circle>
+</svg>
+</div>
+<!-- Expand Map Button -->
+<button class="absolute bottom-3 right-3 bg-white dark:bg-surface-dark p-2 rounded-lg shadow-sm text-slate-900 dark:text-white hover:bg-gray-50 dark:hover:bg-neutral-dark transition-colors">
+<span class="material-symbols-outlined">open_in_full</span>
+</button>
+</div>
+</div>
+<!-- Analytics Grid -->
+<div class="px-4 grid grid-cols-2 gap-3 mb-6">
+<!-- Card 1: Calories -->
+<div class="bg-white dark:bg-surface-dark p-5 rounded-2xl shadow-sm border border-neutral-light dark:border-neutral-dark flex flex-col justify-between h-32">
+<div class="flex items-start justify-between">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Calories</p>
+<span class="material-symbols-outlined text-orange-500">local_fire_department</span>
+</div>
+<div>
+<p class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">840</p>
+<p class="text-xs text-slate-400 dark:text-slate-500 font-medium mt-1">kcal burned</p>
+</div>
+</div>
+<!-- Card 2: Gradient -->
+<div class="bg-white dark:bg-surface-dark p-5 rounded-2xl shadow-sm border border-neutral-light dark:border-neutral-dark flex flex-col justify-between h-32">
+<div class="flex items-start justify-between">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Avg Gradient</p>
+<span class="material-symbols-outlined text-blue-500">landscape</span>
+</div>
+<div>
+<p class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">12%</p>
+<p class="text-xs text-slate-400 dark:text-slate-500 font-medium mt-1">Difficulty: Hard</p>
+</div>
+</div>
+<!-- Card 3: Elevation -->
+<div class="bg-white dark:bg-surface-dark p-5 rounded-2xl shadow-sm border border-neutral-light dark:border-neutral-dark flex flex-col justify-between h-32">
+<div class="flex items-start justify-between">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Max Elevation</p>
+<span class="material-symbols-outlined text-purple-500">arrow_upward</span>
+</div>
+<div>
+<p class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">1,250<span class="text-lg text-slate-400 dark:text-slate-500 ml-1">m</span></p>
+<p class="text-xs text-slate-400 dark:text-slate-500 font-medium mt-1">Peak altitude</p>
+</div>
+</div>
+<!-- Card 4: Naismith's Rule (Spans 2 columns on small, but here keeping grid consistent or unique) -->
+<!-- Let's make this one span full width inside the grid visually by breaking grid or just putting below -->
+<div class="col-span-2 bg-white dark:bg-surface-dark p-5 rounded-2xl shadow-sm border border-neutral-light dark:border-neutral-dark">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-slate-900 dark:text-white">timer</span>
+<p class="text-slate-900 dark:text-white font-bold text-base">Naismith's Rule</p>
+</div>
+<div class="flex justify-between items-end mb-2">
+<div class="flex flex-col">
+<span class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Planned</span>
+<span class="text-lg font-bold text-slate-400 dark:text-slate-500">2h 30m</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-xs text-green-600 dark:text-green-400 uppercase font-bold tracking-wider mb-1">Actual</span>
+<span class="text-2xl font-bold text-slate-900 dark:text-primary">2h 15m</span>
+</div>
+</div>
+<!-- Progress Bar Comparison -->
+<div class="relative w-full h-3 bg-neutral-light dark:bg-neutral-dark rounded-full overflow-hidden">
+<!-- Planned Marker (Background) -->
+<div class="absolute top-0 left-0 h-full w-[85%] bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+<!-- Actual Marker (Foreground) -->
+<div class="absolute top-0 left-0 h-full w-[76%] bg-primary rounded-full z-10 shadow-[0_0_10px_rgba(19,236,37,0.5)]"></div>
+</div>
+<p class="mt-3 text-xs text-slate-500 dark:text-slate-400">
+                    You beat the estimated time by <span class="text-green-600 dark:text-green-400 font-bold">15 minutes</span>. Great pace!
+                </p>
+</div>
+</div>
+<!-- Trail Highlights / Memories -->
+<div class="pl-6 mb-8">
+<div class="flex justify-between items-center pr-6 mb-4">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Trail Highlights</h3>
+<button class="text-sm font-medium text-primary hover:text-green-600 dark:hover:text-green-300 transition-colors">View All</button>
+</div>
+<div class="flex overflow-x-auto gap-4 pb-4 scrollbar-hide pr-6">
+<!-- Photo 1 -->
+<div class="relative flex-none w-40 aspect-[3/4] rounded-xl overflow-hidden shadow-sm group">
+<img alt="Hiker looking at mountain view" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Hiker looking at mountain view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzrHLg3Efsa_1CHuq2NGjY-rU6ewgwL8m4hbH5gHPA3ZPg7NFrX1qIbm0pM4OY8yGwl950CunORyvA-RBSm2JEMhY8VXBgekzETfC1_O47X_rIt1ngM08-zTMnlNwGlgtiWFKqUmB1TKU9JhIt-HfpoPXk4ZjkEa0T5FyGtMPG65ro_6fhpXY8qaUKDCZtaHAL6ZD1TtuWOcrVDXCB_tlS61ZNJle3UWulYoILSktpenibz0q7WQ-ZTCijcah5ybA8tUAaxLa-09XD"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+</div>
+<!-- Photo 2 -->
+<div class="relative flex-none w-40 aspect-[3/4] rounded-xl overflow-hidden shadow-sm group">
+<img alt="Mountain peaks with clouds" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Mountain peaks with clouds" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwi49n8BxpOxniE7kLkr28QhjRBDIp0NieC8NCy2Jh_wt1QGfj_Cm6FkKjLIn6yv87FsITk5fTcMZ6-t5uz7XJkF9MBWDXi256GZNei9A_q-dvund6WejF8U5eOBAfpRy90hLkOnc39WUofSiKVUAlJ50GUerUPP4dgIfn7P6yTjUmhrIfA8SwTzGmJ9JvSKCqXJWOxwjN8CurwdopgAwaSLYcmJ-oLT_37bacoBueabr3APW9Li26R4Zm4EVFHjQtc3iFYelfm_j4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+</div>
+<!-- Photo 3 -->
+<div class="relative flex-none w-40 aspect-[3/4] rounded-xl overflow-hidden shadow-sm group">
+<img alt="Forest trail path view" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Forest trail path view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnU-I81cvrfbaiBBlDhaQuWFfr28dr3ih01qOmWLKprw6HeaBkDrsary5wdVADo6MSGDpx-rvvTqFpPnrT-ZVVPsZ_cr751cC4KpwopGZM3HVScL9EHcFn5SiKvxeO8xd-4kqjlRpptuRoKYiliaNLngAFpbw1XQHmIAEUAweb9WHoEbUHo1yEN1XFUKYrRWp28neTAi0Hq8mvS37R_HLR-jrFQIWzPqcdzymJ5eV6cfkUtIjiasgWV6qOmZypAloQzqMtPre5Bhfp"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+</div>
+<!-- Add Photo Placeholder -->
+<div class="flex-none w-20 aspect-[3/4] rounded-xl border-2 border-dashed border-neutral-dark/20 dark:border-neutral-light/20 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-neutral-light/50 dark:hover:bg-neutral-dark/50 transition-colors">
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500">add_a_photo</span>
+<span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Add</span>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Action -->
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background-light dark:from-background-dark via-background-light dark:via-background-dark to-transparent z-10 max-w-md mx-auto">
+<button class="w-full bg-primary hover:bg-green-400 active:scale-[0.98] transition-all duration-200 text-slate-900 font-bold py-4 px-6 rounded-xl shadow-lg shadow-green-500/30 flex items-center justify-center gap-2 text-lg">
+<span class="material-symbols-outlined">share</span>
+                Share to Feed
+            </button>
+</div>
+</div>
+</body></html>

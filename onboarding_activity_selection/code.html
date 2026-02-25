@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Onboarding Activity Selection</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#06f90e",
+                        "background-light": "#f5f8f5",
+                        "background-dark": "#0f2310",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(6, 249, 14, 0.2);
+            border-radius: 4px;
+        }
+        
+        /* Hide default radio */
+        input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased h-screen w-full overflow-hidden flex flex-col selection:bg-primary selection:text-background-dark">
+<!-- Header / Progress -->
+<header class="flex-none px-6 py-6 pt-12">
+<div class="flex w-full flex-row items-center justify-center gap-2 mb-6">
+<div class="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-600 transition-colors"></div>
+<div class="h-1.5 w-8 rounded-full bg-primary shadow-[0_0_10px_rgba(6,249,14,0.4)] transition-all"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-600 transition-colors"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-600 transition-colors"></div>
+</div>
+<div class="space-y-2 text-center md:text-left">
+<h1 class="text-slate-900 dark:text-slate-50 text-3xl font-bold tracking-tight leading-tight">
+                How do you <span class="text-primary">move</span>?
+            </h1>
+<p class="text-slate-600 dark:text-slate-400 text-base font-normal">
+                We'll tailor your map recommendations based on how you explore the wild.
+            </p>
+</div>
+</header>
+<!-- Main Content: Activity Cards -->
+<main class="flex-1 overflow-y-auto px-6 pb-24">
+<form class="flex flex-col gap-4 max-w-md mx-auto">
+<!-- Option 1: Hiking -->
+<label class="group relative cursor-pointer">
+<input checked="" class="peer sr-only" name="activity" type="radio" value="hiking"/>
+<div class="relative flex items-center gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-all duration-200 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:shadow-[0_0_20px_rgba(6,249,14,0.1)]">
+<div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-primary peer-checked:bg-primary peer-checked:text-background-dark transition-colors">
+<span class="material-symbols-outlined text-2xl">hiking</span>
+</div>
+<div class="flex flex-col grow">
+<span class="text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary peer-checked:text-primary transition-colors">Hiking</span>
+<span class="text-sm font-normal text-slate-500 dark:text-slate-400">Discover scenic trails on foot</span>
+</div>
+<div class="h-5 w-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary peer-checked:bg-primary relative flex items-center justify-center transition-colors">
+<div class="h-2 w-2 rounded-full bg-background-dark opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</label>
+<!-- Option 2: Mountain Biking -->
+<label class="group relative cursor-pointer">
+<input class="peer sr-only" name="activity" type="radio" value="mtb"/>
+<div class="relative flex items-center gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-all duration-200 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:shadow-[0_0_20px_rgba(6,249,14,0.1)]">
+<div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-primary peer-checked:bg-primary peer-checked:text-background-dark transition-colors">
+<span class="material-symbols-outlined text-2xl">directions_bike</span>
+</div>
+<div class="flex flex-col grow">
+<span class="text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary peer-checked:text-primary transition-colors">Mountain Biking</span>
+<span class="text-sm font-normal text-slate-500 dark:text-slate-400">Singletracks and downhill runs</span>
+</div>
+<div class="h-5 w-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary peer-checked:bg-primary relative flex items-center justify-center transition-colors">
+<div class="h-2 w-2 rounded-full bg-background-dark opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</label>
+<!-- Option 3: Trail Running -->
+<label class="group relative cursor-pointer">
+<input class="peer sr-only" name="activity" type="radio" value="running"/>
+<div class="relative flex items-center gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-all duration-200 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:shadow-[0_0_20px_rgba(6,249,14,0.1)]">
+<div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-primary peer-checked:bg-primary peer-checked:text-background-dark transition-colors">
+<span class="material-symbols-outlined text-2xl">directions_run</span>
+</div>
+<div class="flex flex-col grow">
+<span class="text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary peer-checked:text-primary transition-colors">Trail Running</span>
+<span class="text-sm font-normal text-slate-500 dark:text-slate-400">Endurance paths and circuits</span>
+</div>
+<div class="h-5 w-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary peer-checked:bg-primary relative flex items-center justify-center transition-colors">
+<div class="h-2 w-2 rounded-full bg-background-dark opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</label>
+<!-- Option 4: Off-Roading -->
+<label class="group relative cursor-pointer">
+<input class="peer sr-only" name="activity" type="radio" value="offroad"/>
+<div class="relative flex items-center gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-all duration-200 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:shadow-[0_0_20px_rgba(6,249,14,0.1)]">
+<div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-primary peer-checked:bg-primary peer-checked:text-background-dark transition-colors">
+<span class="material-symbols-outlined text-2xl">minor_crash</span>
+</div>
+<div class="flex flex-col grow">
+<span class="text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary peer-checked:text-primary transition-colors">Off-Roading</span>
+<span class="text-sm font-normal text-slate-500 dark:text-slate-400">4x4 trails and dirt roads</span>
+</div>
+<div class="h-5 w-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary peer-checked:bg-primary relative flex items-center justify-center transition-colors">
+<div class="h-2 w-2 rounded-full bg-background-dark opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</label>
+</form>
+</main>
+<!-- Footer: Fixed Bottom Button -->
+<footer class="flex-none p-6 pt-0 bg-gradient-to-t from-background-light dark:from-background-dark via-background-light dark:via-background-dark to-transparent">
+<div class="max-w-md mx-auto">
+<button class="w-full flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-[#05d90c] text-background-dark h-14 px-6 text-lg font-bold tracking-wide shadow-[0_0_20px_rgba(6,249,14,0.3)] hover:shadow-[0_0_30px_rgba(6,249,14,0.5)] transition-all transform active:scale-[0.98]">
+<span>Continue</span>
+<span class="material-symbols-outlined text-xl">arrow_forward</span>
+</button>
+</div>
+</footer>
+</body></html>

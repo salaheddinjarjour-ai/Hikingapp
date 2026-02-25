@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Advanced Trail Filters</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#11d421",
+                        "primary-dark": "#0ea61a",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#102212",
+                        "neutral-surface": "#f0f4f0",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 2px solid #11d421;
+            cursor: pointer;
+            margin-top: -10px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #e2e8e2;
+            border-radius: 2px;
+        }
+        
+        /* Toggle Switch Styling */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #11d421;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #11d421;
+        }
+        
+        /* Hide scrollbar for clean horizontal scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased selection:bg-primary/30">
+<!-- Main Container simulating a phone screen view with map background -->
+<div class="relative min-h-screen w-full mx-auto max-w-md bg-gray-200 overflow-hidden shadow-2xl">
+<!-- Abstract Map Background -->
+<div class="absolute inset-0 z-0 bg-cover bg-center opacity-80" data-alt="Topographic map view of a mountain trail area" data-location="Swiss Alps" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDIcNsd_kHqdZBCsNd25LLBawK4dO_TUHg9HUsFqDMkNVmKK_QMLec8hSex5ZIURO0nNRhCWeeb68DnCe2naL2Gngvhkc8C7YTk4pgrVGL-xhAolYMdTf3MxuwZ_sGdDBxImBPMCNuOuufUhk3XeqH17GOi1LblLe_qFyUsXdjmR0VUwhNVmHju76eSq43VyTRJMciI1FRy3BmHsHr7SWef5czVWHTWO0ri2rjXk8GQvEY3gOxE8I3DmhDOcbwaOjlSqzOGzFAcs3q7');">
+<div class="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/40"></div>
+</div>
+<!-- Simulated Status Bar Area -->
+<div class="absolute top-0 w-full h-12 z-10 flex justify-between items-center px-6 text-black font-medium text-sm">
+<span>9:41</span>
+<div class="flex gap-1">
+<span class="material-symbols-outlined text-[18px]">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-[18px]">wifi</span>
+<span class="material-symbols-outlined text-[18px]">battery_full</span>
+</div>
+</div>
+<!-- Backdrop Overlay -->
+<div class="absolute inset-0 bg-black/40 z-10 backdrop-blur-[2px]"></div>
+<!-- Bottom Sheet Modal -->
+<div class="absolute bottom-0 left-0 w-full z-20 flex flex-col h-[92vh] bg-white rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.12)] transition-transform duration-300 transform translate-y-0">
+<!-- Drag Handle Area -->
+<div class="w-full flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing">
+<div class="h-1.5 w-12 rounded-full bg-gray-300"></div>
+</div>
+<!-- Header -->
+<div class="flex items-center justify-between px-6 py-3 border-b border-gray-100">
+<button class="text-slate-400 text-sm font-medium hover:text-slate-600 transition-colors">Cancel</button>
+<h2 class="text-xl font-bold tracking-tight text-slate-900">Filters</h2>
+<button class="text-primary font-bold text-sm hover:text-primary-dark transition-colors">Reset</button>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto overflow-x-hidden pb-24 no-scrollbar">
+<!-- Section: Activity Type -->
+<div class="px-6 py-5">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4">Activity Type</h3>
+<div class="flex gap-3 overflow-x-auto no-scrollbar pb-1">
+<!-- Active State -->
+<button class="flex flex-col items-center justify-center min-w-[5.5rem] h-20 rounded-2xl bg-primary/10 border-2 border-primary text-primary transition-all shadow-sm">
+<span class="material-symbols-outlined text-3xl mb-1 fill-1">hiking</span>
+<span class="text-xs font-bold">Hiking</span>
+</button>
+<!-- Inactive State -->
+<button class="flex flex-col items-center justify-center min-w-[5.5rem] h-20 rounded-2xl bg-neutral-surface border border-transparent text-slate-600 hover:bg-gray-200 transition-all">
+<span class="material-symbols-outlined text-3xl mb-1">directions_bike</span>
+<span class="text-xs font-medium">Biking</span>
+</button>
+<!-- Inactive State -->
+<button class="flex flex-col items-center justify-center min-w-[5.5rem] h-20 rounded-2xl bg-neutral-surface border border-transparent text-slate-600 hover:bg-gray-200 transition-all">
+<span class="material-symbols-outlined text-3xl mb-1">directions_run</span>
+<span class="text-xs font-medium">Running</span>
+</button>
+</div>
+</div>
+<div class="h-px w-full bg-gray-100 mx-6"></div>
+<!-- Section: Range Sliders -->
+<div class="px-6 py-5 space-y-8">
+<!-- Distance Slider -->
+<div>
+<div class="flex justify-between items-end mb-4">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500">Distance</h3>
+<span class="text-lg font-bold text-slate-900">5 - 25 <span class="text-sm text-slate-500 font-normal">km</span></span>
+</div>
+<div class="relative h-6 flex items-center">
+<!-- Background Track -->
+<div class="absolute w-full h-1.5 bg-neutral-surface rounded-full overflow-hidden">
+<!-- Active Range (Simulated) -->
+<div class="absolute left-[10%] w-[40%] h-full bg-primary"></div>
+</div>
+<!-- Thumbs (Simulated placement) -->
+<div class="absolute left-[10%] w-6 h-6 bg-white border-2 border-primary rounded-full shadow-md cursor-pointer transform -translate-x-1/2 hover:scale-110 transition-transform"></div>
+<div class="absolute left-[50%] w-6 h-6 bg-white border-2 border-primary rounded-full shadow-md cursor-pointer transform -translate-x-1/2 hover:scale-110 transition-transform"></div>
+</div>
+<div class="flex justify-between mt-2 text-xs text-slate-400 font-medium">
+<span>0km</span>
+<span>50km</span>
+</div>
+</div>
+<!-- Elevation Slider -->
+<div>
+<div class="flex justify-between items-end mb-4">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500">Elevation Gain</h3>
+<span class="text-lg font-bold text-slate-900">100 - 1200 <span class="text-sm text-slate-500 font-normal">m</span></span>
+</div>
+<div class="relative h-6 flex items-center">
+<div class="absolute w-full h-1.5 bg-neutral-surface rounded-full overflow-hidden">
+<div class="absolute left-[5%] w-[55%] h-full bg-primary"></div>
+</div>
+<div class="absolute left-[5%] w-6 h-6 bg-white border-2 border-primary rounded-full shadow-md cursor-pointer transform -translate-x-1/2 hover:scale-110 transition-transform"></div>
+<div class="absolute left-[60%] w-6 h-6 bg-white border-2 border-primary rounded-full shadow-md cursor-pointer transform -translate-x-1/2 hover:scale-110 transition-transform"></div>
+</div>
+<div class="flex justify-between mt-2 text-xs text-slate-400 font-medium">
+<span>0m</span>
+<span>2000m+</span>
+</div>
+</div>
+</div>
+<div class="h-px w-full bg-gray-100 mx-6"></div>
+<!-- Section: Difficulty -->
+<div class="px-6 py-5">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4">Difficulty</h3>
+<div class="grid grid-cols-4 gap-2">
+<!-- Easy -->
+<button class="py-2 px-1 rounded-lg border bg-green-50 border-green-200 text-green-700 font-bold text-xs flex items-center justify-center transition-colors">
+                            Easy
+                        </button>
+<!-- Moderate -->
+<button class="py-2 px-1 rounded-lg border border-gray-200 bg-white text-slate-600 font-medium text-xs hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 flex items-center justify-center transition-colors">
+                            Moderate
+                        </button>
+<!-- Hard -->
+<button class="py-2 px-1 rounded-lg border border-gray-200 bg-white text-slate-600 font-medium text-xs hover:border-orange-200 hover:bg-orange-50 hover:text-orange-700 flex items-center justify-center transition-colors">
+                            Hard
+                        </button>
+<!-- Expert -->
+<button class="py-2 px-1 rounded-lg border border-gray-200 bg-white text-slate-600 font-medium text-xs hover:border-slate-800 hover:bg-slate-100 hover:text-slate-900 flex items-center justify-center transition-colors">
+                            Expert
+                        </button>
+</div>
+</div>
+<div class="h-px w-full bg-gray-100 mx-6"></div>
+<!-- Section: Features Toggles -->
+<div class="px-6 py-5 space-y-1">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2">Features</h3>
+<!-- Toggle Item: Loop Only -->
+<div class="flex items-center justify-between py-3">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-full bg-neutral-surface text-slate-700">
+<span class="material-symbols-outlined text-[20px]">repeat</span>
+</div>
+<span class="text-base font-semibold text-slate-900">Loop Only</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-300 checked:right-0 checked:border-primary transition-all duration-300" id="loop-toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer checked:bg-primary transition-colors duration-300" for="loop-toggle"></label>
+</div>
+</div>
+<!-- Toggle Item: Dog Friendly -->
+<div class="flex items-center justify-between py-3">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-full bg-neutral-surface text-slate-700">
+<span class="material-symbols-outlined text-[20px]">pets</span>
+</div>
+<span class="text-base font-semibold text-slate-900">Dog Friendly</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-300 checked:right-0 checked:border-primary transition-all duration-300" id="dog-toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-primary cursor-pointer transition-colors duration-300" for="dog-toggle"></label>
+</div>
+</div>
+<!-- Toggle Item: Waterfall -->
+<div class="flex items-center justify-between py-3">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-full bg-neutral-surface text-slate-700">
+<span class="material-symbols-outlined text-[20px]">water_drop</span>
+</div>
+<span class="text-base font-semibold text-slate-900">Waterfall Views</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-300 checked:right-0 checked:border-primary transition-all duration-300" id="water-toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer checked:bg-primary transition-colors duration-300" for="water-toggle"></label>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer -->
+<div class="absolute bottom-0 left-0 w-full bg-white border-t border-gray-100 p-6 z-30">
+<button class="w-full bg-primary hover:bg-primary-dark text-slate-900 font-bold py-4 px-6 rounded-xl shadow-lg shadow-primary/30 flex justify-center items-center gap-2 transition-all active:scale-[0.98]">
+<span>Show 24 Trails</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>3D Terrain &amp; Route Preview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f27f0d",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221910",
+                        "surface-dark": "#181411", // Adding a surface color based on the provided component example
+                        "surface-translucent": "rgba(24, 20, 17, 0.85)",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "sans": ["Space Grotesk", "sans-serif"], // Defaulting sans to Space Grotesk as per request
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #54473b; 
+            border-radius: 4px;
+        }
+        /* Hide scrollbar for clean look in demo */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark text-slate-100 font-display h-screen w-full overflow-hidden flex flex-col relative selection:bg-primary selection:text-white">
+<!-- Main 3D Viewport Background -->
+<div class="absolute inset-0 w-full h-full z-0">
+<!-- Placeholder for 3D Map Rendering -->
+<div class="w-full h-full bg-cover bg-center relative" data-alt="Dramatic mountain landscape with peaks and valleys" data-location="Swiss Alps" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBGZCQte5kKQayXgA1jn6Y2g8u-2m8ZhfDBvNqTFPwTSkc-e1UHkltunmY1GWz9wg1CFFtmuWi-JgXwZjl6YGTp2gTCaMAI-t6tjkuzsHOaxmnIoSG9vfombQeRTsjdLJeTdKwpGgiYnV-k8br1C_7zaIX6CcjvUxuSeEm7nSMktoMgDshQd1HCgCrts8hil2klOrj8BaH6LSuIhpzSe86cofEXoJdVIjcMFRAIfBx0IhSnE4mucXOXLMYE5ZisnJ5w-k1oYXO3N3VQ');">
+<!-- Overlay to darken slightly for text readability if needed, but keeping it light to show off terrain -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
+<!-- Simulated Trail Path (SVG Overlay) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" style="filter: drop-shadow(0 0 8px #f27f0d);">
+<path d="M100,600 C150,550 120,450 180,400 S300,350 320,300 S280,200 350,150" fill="none" stroke="#f27f0d" stroke-dasharray="10,5" stroke-linecap="round" stroke-width="4"></path>
+<!-- Current Location Marker on Map -->
+<circle cx="250" cy="325" fill="#f27f0d" r="8" stroke="white" stroke-width="2">
+<animate attributename="r" dur="2s" repeatcount="indefinite" values="8;12;8"></animate>
+<animate attributename="opacity" dur="2s" repeatcount="indefinite" values="1;0.6;1"></animate>
+</circle>
+</svg>
+</div>
+</div>
+<!-- Top Bar: Navigation & Info -->
+<div class="relative z-10 w-full px-4 pt-12 pb-4 flex items-start justify-between">
+<!-- Back Button -->
+<button class="flex items-center justify-center size-10 rounded-full bg-surface-translucent backdrop-blur-md border border-white/10 text-white hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+</button>
+<!-- Route Info Card -->
+<div class="flex flex-col items-center bg-surface-translucent backdrop-blur-md rounded-xl border border-white/10 px-5 py-2.5 shadow-lg max-w-[200px] text-center">
+<h1 class="text-sm font-bold tracking-wide uppercase text-white mb-0.5">Summit Loop</h1>
+<div class="flex items-center gap-3 text-xs text-gray-400">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">hiking</span> 5.2 mi</span>
+<span class="w-1 h-1 rounded-full bg-gray-600"></span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> 3h 45m</span>
+</div>
+</div>
+<!-- Map Controls Cluster -->
+<div class="flex flex-col gap-2">
+<button class="flex items-center justify-center size-10 rounded-full bg-surface-translucent backdrop-blur-md border border-white/10 text-primary hover:bg-white/10 transition-colors shadow-lg">
+<span class="material-symbols-outlined text-[20px] fill-1">explore</span> <!-- Compass -->
+</button>
+<button class="flex items-center justify-center size-10 rounded-full bg-surface-translucent backdrop-blur-md border border-white/10 text-white hover:bg-white/10 transition-colors shadow-lg">
+<span class="material-symbols-outlined text-[20px]">3d_rotation</span> <!-- Tilt -->
+</button>
+<div class="flex flex-col rounded-full bg-surface-translucent backdrop-blur-md border border-white/10 shadow-lg mt-2 overflow-hidden">
+<button class="flex items-center justify-center w-10 h-10 text-white hover:bg-white/10 transition-colors border-b border-white/10">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 text-white hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Center-Left: Elevation Gauge -->
+<div class="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center gap-1">
+<span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2" style="writing-mode: vertical-rl; transform: rotate(180deg);">Elevation</span>
+<div class="bg-surface-translucent backdrop-blur-md rounded-full border border-white/10 py-3 px-1.5 flex flex-col items-center gap-8 shadow-lg h-[240px] justify-between relative">
+<!-- Gauge Ticks -->
+<div class="absolute right-0 top-4 bottom-4 w-2 flex flex-col justify-between items-end pr-1 border-r border-white/20">
+<div class="h-[1px] w-2 bg-white/50"></div>
+<div class="h-[1px] w-1 bg-white/30"></div>
+<div class="h-[1px] w-1 bg-white/30"></div>
+<div class="h-[1px] w-2 bg-white/50"></div>
+<div class="h-[1px] w-1 bg-white/30"></div>
+<div class="h-[1px] w-1 bg-white/30"></div>
+<div class="h-[1px] w-2 bg-white/50"></div>
+<div class="h-[1px] w-1 bg-white/30"></div>
+<div class="h-[1px] w-1 bg-white/30"></div>
+<div class="h-[1px] w-2 bg-white/50"></div>
+</div>
+<!-- Current Elevation Indicator (Moving) -->
+<div class="absolute top-[40%] right-[-4px] flex items-center">
+<div class="bg-primary text-[10px] font-bold text-white px-1.5 py-0.5 rounded-sm mr-2 shadow-sm">1,840m</div>
+<div class="w-2 h-2 bg-primary rotate-45 border border-surface-dark"></div>
+</div>
+<!-- Labels (Static) -->
+<span class="text-[10px] text-gray-500 font-mono mt-1">2.4k</span>
+<span class="text-[10px] text-gray-500 font-mono mb-1">1.2k</span>
+</div>
+</div>
+<!-- Bottom: Fly-through Controls -->
+<div class="absolute bottom-0 left-0 right-0 z-20 pb-8 pt-12 px-4 bg-gradient-to-t from-background-dark via-background-dark/90 to-transparent">
+<div class="flex flex-col gap-4 max-w-md mx-auto w-full">
+<!-- Info Row Above Slider -->
+<div class="flex justify-between items-end px-1">
+<div class="flex flex-col">
+<span class="text-xs text-primary font-bold uppercase tracking-wider mb-0.5">Live Preview</span>
+<span class="text-lg font-medium text-white">Lookout Point</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-gray-400 font-mono">35%</span>
+</div>
+</div>
+<!-- Custom Scrubber Slider -->
+<div class="relative w-full h-12 flex items-center group cursor-pointer">
+<!-- Track Background -->
+<div class="absolute inset-x-0 h-16 top-1/2 -translate-y-1/2 opacity-0"></div> <!-- Hit area expander -->
+<!-- Track Line -->
+<div class="w-full h-1.5 bg-white/10 rounded-full relative overflow-hidden">
+<!-- Progress Fill -->
+<div class="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-primary/60 to-primary w-[35%] rounded-full"></div>
+</div>
+<!-- Peak Markers on Track -->
+<div class="absolute left-[20%] top-1/2 -translate-y-1/2 w-1 h-1 bg-white/30 rounded-full"></div>
+<div class="absolute left-[65%] top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-white/50 rounded-full border border-background-dark"></div>
+<div class="absolute left-[90%] top-1/2 -translate-y-1/2 w-1 h-1 bg-white/30 rounded-full"></div>
+<!-- Thumb / Dragger -->
+<div class="absolute left-[35%] top-1/2 -translate-y-1/2 -ml-3 w-6 h-6 bg-white rounded-full shadow-[0_0_15px_rgba(242,127,13,0.5)] flex items-center justify-center z-10 hover:scale-110 transition-transform cursor-grab active:cursor-grabbing">
+<div class="w-2 h-2 bg-primary rounded-full"></div>
+</div>
+</div>
+<!-- Playback Controls -->
+<div class="flex items-center justify-center gap-8 mt-1">
+<button class="text-gray-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">skip_previous</span>
+</button>
+<button class="flex items-center justify-center size-14 rounded-full bg-primary text-white shadow-lg shadow-primary/30 hover:bg-orange-500 transition-colors">
+<span class="material-symbols-outlined text-[32px] fill-1">play_arrow</span>
+</button>
+<button class="text-gray-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">skip_next</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Floating Stats Overlay (Bottom Left - subtle) -->
+<div class="absolute bottom-32 left-4 z-10 pointer-events-none opacity-60 hidden md:block">
+<div class="flex flex-col gap-1 text-[10px] font-mono text-gray-400">
+<span>LAT: 46.508° N</span>
+<span>LNG: 08.125° E</span>
+<span>INC: 12.5%</span>
+</div>
+</div>
+</body></html>

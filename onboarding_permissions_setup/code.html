@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Onboarding Permissions Setup</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#17cf17",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112111",
+                        "surface-dark": "#1c2e1c", 
+                        "surface-light": "#e8ebe8"
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hide for cleaner look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased overflow-hidden h-screen flex flex-col">
+<!-- Header -->
+<div class="flex items-center p-4 justify-between shrink-0 z-10">
+<button class="flex size-10 items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-white" style="font-size: 24px;">arrow_back</span>
+</button>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Setup Permissions</h2>
+<div class="size-10"></div> <!-- Spacer for alignment -->
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto no-scrollbar px-4 pb-32">
+<h1 class="text-slate-900 dark:text-white text-3xl font-extrabold leading-tight pt-2 pb-3">Enable core features</h1>
+<p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-relaxed pb-6">
+            To get the most out of your trail experience and ensure your safety, we need access to a few key permissions.
+        </p>
+<!-- Location Permission Card -->
+<div class="mb-4 rounded-xl bg-white dark:bg-surface-dark p-5 shadow-sm border border-slate-200 dark:border-transparent">
+<div class="flex items-start gap-4 mb-4">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/20 text-primary">
+<span class="material-symbols-outlined" style="font-size: 24px;">location_on</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Location Access</h3>
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full border-none bg-slate-300 dark:bg-slate-700 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary transition-colors duration-200">
+<input checked="" class="peer invisible absolute" type="checkbox"/>
+<div class="h-[24px] w-[24px] rounded-full bg-white shadow-sm transition-all peer-checked:bg-white"></div>
+</label>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 leading-normal">
+                        Precise GPS is required for accurate trail tracking, route navigation, and emergency safety features.
+                    </p>
+</div>
+</div>
+<!-- Map Visualization -->
+<div class="relative w-full h-32 rounded-lg overflow-hidden mb-3 bg-slate-100 dark:bg-black/20">
+<div class="absolute inset-0 bg-cover bg-center opacity-80" data-alt="Topographic map with route highlighted" data-location="Yosemite National Park" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCkXMhDpHDxVWjKbUF-BaWnMBg22DOeWOLjhCJYuPhc0Nqi2pZ-5bDQ5bO8lNJm3jY-nPArZAsMp7BN4vxOQmK5bzRHdjO_dNjFV-M0bZp5oy7ahLACtMBNqG2YIb5M01K_NFQ6Z5gI2072irKb0Vg_4xgeAwA5-L7tCWimQ6hQYk7YHQ-TPBYBEUJuIFpgZQH-GFsm1GpB_OS-iYYOneCAY1RTZj2MHTKjc63BpVw2WkenjqUjOtDOZACxKwYanxbKRJat94sg-_S8');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark/80 to-transparent"></div>
+<div class="absolute bottom-3 left-3 flex items-center gap-2">
+<span class="px-2 py-1 text-xs font-medium bg-primary/90 text-white rounded backdrop-blur-sm">Required</span>
+</div>
+</div>
+<button class="text-primary text-sm font-semibold hover:underline flex items-center gap-1">
+                Learn how we use your location
+                <span class="material-symbols-outlined text-base">chevron_right</span>
+</button>
+</div>
+<!-- Notification Permission Card -->
+<div class="mb-4 rounded-xl bg-white dark:bg-surface-dark p-5 shadow-sm border border-slate-200 dark:border-transparent">
+<div class="flex items-start gap-4 mb-4">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/20 text-primary">
+<span class="material-symbols-outlined" style="font-size: 24px;">notifications_active</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Smart Notifications</h3>
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full border-none bg-slate-300 dark:bg-slate-700 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary transition-colors duration-200">
+<input class="peer invisible absolute" type="checkbox"/>
+<div class="h-[24px] w-[24px] rounded-full bg-white shadow-sm transition-all peer-checked:bg-white"></div>
+</label>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 leading-normal">
+                        Receive real-time weather alerts, trail condition updates, and community safety notifications.
+                    </p>
+</div>
+</div>
+<!-- Notification Preview Visualization -->
+<div class="relative w-full p-3 rounded-lg bg-slate-50 dark:bg-black/20 border border-slate-100 dark:border-white/5 mb-3 flex items-center gap-3">
+<div class="size-10 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">cloud</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-0.5">Weather Alert • Now</p>
+<p class="text-sm font-semibold text-slate-900 dark:text-white truncate">Storm approaching North Ridge Trail</p>
+</div>
+</div>
+<button class="text-primary text-sm font-semibold hover:underline flex items-center gap-1">
+                See notification types
+                <span class="material-symbols-outlined text-base">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Fixed Bottom Actions -->
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background-light via-background-light to-transparent dark:from-background-dark dark:via-background-dark dark:to-transparent pt-12">
+<div class="max-w-md mx-auto w-full flex flex-col gap-3">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
+                Allow Selected
+            </button>
+<button class="w-full bg-transparent hover:bg-black/5 dark:hover:bg-white/5 text-slate-500 dark:text-slate-400 font-semibold py-3 px-6 rounded-xl transition-colors">
+                Maybe Later
+            </button>
+</div>
+</div>
+</body></html>

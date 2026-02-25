@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Saved &amp; Planned Routes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#26cf17",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#122111",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased min-h-screen flex flex-col">
+<!-- Header -->
+<header class="sticky top-0 z-10 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-gray-100 dark:border-white/5 px-4 pt-12 pb-4 flex items-center justify-between">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">My Routes</h1>
+<button class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors text-slate-900 dark:text-slate-100">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto px-4 pb-24">
+<!-- Segmented Control -->
+<div class="mt-4 p-1 bg-gray-100 dark:bg-white/5 rounded-xl flex items-center relative">
+<button class="flex-1 py-2 text-sm font-semibold rounded-lg bg-white dark:bg-background-dark shadow-sm text-primary transition-all text-center">
+                Saved Trails
+            </button>
+<button class="flex-1 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all text-center">
+                Planned Routes
+            </button>
+</div>
+<!-- Filters -->
+<div class="mt-6 flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-primary text-white text-sm font-semibold whitespace-nowrap shadow-lg shadow-primary/20">
+                All
+            </button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 text-slate-600 dark:text-slate-300 text-sm font-medium whitespace-nowrap hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">
+                Hiking
+            </button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 text-slate-600 dark:text-slate-300 text-sm font-medium whitespace-nowrap hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">
+                Cycling
+            </button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 text-slate-600 dark:text-slate-300 text-sm font-medium whitespace-nowrap hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">
+                Trail Run
+            </button>
+</div>
+<!-- Sort by -->
+<div class="mt-6 mb-2 flex items-center justify-between">
+<span class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">Nearby</span>
+<button class="text-xs font-semibold text-primary flex items-center gap-1">
+                Sort by Distance <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+<!-- Route List -->
+<div class="space-y-4">
+<!-- Card 1 -->
+<div class="bg-white dark:bg-white/5 rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-white/5 flex gap-4 hover:border-primary/30 transition-colors group cursor-pointer">
+<!-- Map Thumbnail -->
+<div class="w-24 h-24 rounded-xl bg-gray-200 dark:bg-gray-700 relative overflow-hidden flex-shrink-0">
+<img alt="Aerial view of green forest trails" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Top down view of a winding forest trail map" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGGLORmW3H7AbWSrRoiciYs1eSyqqZuoQCsOsy6o_Xm6PRuV2xgj5HWwUmwFjtWlLRacloPoM8Sty88WKjdpr14R3DptN1ByU5hzV89c8KCcinu811Ts75004pLZwZ5vNCCB0EhSp9kFFrsBF--lP6y2nPnVm4HqWmmez3jZC8vFBNBRWTRjDxbRWv1xhHiKQhCLJLRYXCBehROA2ektaGpRUXTRaGoQgwcWfD62n4p9oq5pVcsATXl-57hFPiCKEBNYlLJ3xJGG3_"/>
+<div class="absolute inset-0 bg-black/10"></div>
+<span class="absolute bottom-1 left-1 bg-white/90 dark:bg-black/60 backdrop-blur px-1.5 py-0.5 rounded text-[10px] font-bold text-slate-900 dark:text-white">
+                        5.2 km
+                    </span>
+</div>
+<!-- Content -->
+<div class="flex-1 flex flex-col justify-between py-1">
+<div>
+<div class="flex items-start justify-between">
+<h3 class="font-bold text-slate-900 dark:text-slate-100 text-lg leading-tight">Emerald Lake Loop</h3>
+<div class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-50 dark:bg-white/10 text-gray-400 hover:text-primary hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">watch</span>
+</div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">landscape</span>
+                            +320m elev
+                        </p>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2.5 py-1 rounded-md bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-xs font-bold">Moderate</span>
+<span class="px-2.5 py-1 rounded-md bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 text-xs font-medium">Hiking</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white dark:bg-white/5 rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-white/5 flex gap-4 hover:border-primary/30 transition-colors group cursor-pointer">
+<!-- Map Thumbnail -->
+<div class="w-24 h-24 rounded-xl bg-gray-200 dark:bg-gray-700 relative overflow-hidden flex-shrink-0">
+<img alt="Mountain bike trail map view" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Topographic map style view of mountain terrain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwcPrnK7jMjgTLH-igADK6Y1F8tzmffFkSKDPPKqtUqYCTqXME4XZoMXxWWL-GNDD0v7ZUCdbTyLmds7GKqlwqvNPh_Zv2fle4OMrCXf4UZYNasd3hln5AQd_6fIJU22mH6lv4fC4VVszFQ7hEFJRTEm-bvN3Ezp0eAaaLhAJeBPUQvlXzSTb_WTKyB6-0G3pK5XFIXG2vqaQmH7DAtObA-o6pvtjd-XO85VDHR7XLWbL8Cu7KqmZrCcYwR3B_dWgm9c4ErqdaJSv3"/>
+<div class="absolute inset-0 bg-black/10"></div>
+<span class="absolute bottom-1 left-1 bg-white/90 dark:bg-black/60 backdrop-blur px-1.5 py-0.5 rounded text-[10px] font-bold text-slate-900 dark:text-white">
+                        12.5 km
+                    </span>
+</div>
+<!-- Content -->
+<div class="flex-1 flex flex-col justify-between py-1">
+<div>
+<div class="flex items-start justify-between">
+<h3 class="font-bold text-slate-900 dark:text-slate-100 text-lg leading-tight">Red Ridge Descent</h3>
+<div class="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[20px] fill-1">watch</span>
+</div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">landscape</span>
+                            -450m elev
+                        </p>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2.5 py-1 rounded-md bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400 text-xs font-bold">Hard</span>
+<span class="px-2.5 py-1 rounded-md bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 text-xs font-medium">Cycling</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white dark:bg-white/5 rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-white/5 flex gap-4 hover:border-primary/30 transition-colors group cursor-pointer">
+<!-- Map Thumbnail -->
+<div class="w-24 h-24 rounded-xl bg-gray-200 dark:bg-gray-700 relative overflow-hidden flex-shrink-0">
+<img alt="Coastal trail running path" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Satellite view of coastal path near ocean" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeDhecGh1MqJlpRVyuqtKrL2fTp3vgZfTnoEq5SlSby2r9LzbZsTKmTgBkMe0TVhT-_ScNAb6Ovj-ycVNvhM4QL3ceAWM5PAuyPMwkJIlyF8GT4nti5-1fuRKyhjm9AzMyuszCo527994OrSN-AXaCLavKSmN4WV-fotx5pEQcQ8AVesRrT-gsB4pCPCaHNg9PrBPIzMJIDGcoe8QwH2B6UynEHzCwVoIxwEXoWmucxJZxHIbTV7oxSHRPK4IRUk6seTRJ1DXc4xJ_"/>
+<div class="absolute inset-0 bg-black/10"></div>
+<span class="absolute bottom-1 left-1 bg-white/90 dark:bg-black/60 backdrop-blur px-1.5 py-0.5 rounded text-[10px] font-bold text-slate-900 dark:text-white">
+                        8.1 km
+                    </span>
+</div>
+<!-- Content -->
+<div class="flex-1 flex flex-col justify-between py-1">
+<div>
+<div class="flex items-start justify-between">
+<h3 class="font-bold text-slate-900 dark:text-slate-100 text-lg leading-tight">Ocean Bluff Run</h3>
+<div class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-50 dark:bg-white/10 text-gray-400 hover:text-primary hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">watch</span>
+</div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">landscape</span>
+                            +120m elev
+                        </p>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2.5 py-1 rounded-md bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-bold">Easy</span>
+<span class="px-2.5 py-1 rounded-md bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 text-xs font-medium">Run</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-white dark:bg-white/5 rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-white/5 flex gap-4 hover:border-primary/30 transition-colors group cursor-pointer opacity-80">
+<!-- Map Thumbnail -->
+<div class="w-24 h-24 rounded-xl bg-gray-200 dark:bg-gray-700 relative overflow-hidden flex-shrink-0">
+<img alt="Forest trail path with trees" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Muted topographic map of dense forest area" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuwWsGdow86E34Zk0fHSDWGa00brSX-WWSgXFt-1lEQ6WTcVE_hSHFD5fZvLTAOAGKx2QZ8qO0oWzj2SavHRDN_lAiSsOExW9VkBirRajoe9xeECbmKhzlYZnXY2TNChRF3Q1YgnRZJBps2OHFa59QqQGXG6htfep2XxJiJC4TCR1Gz406jKz4wtgOiA_wf7NNCQPxQDJ1djTB6_C8N7kGDB5dhHk3WATVan4C0pKf8Tq7zHLdFzudn1jMRx_-6G8EQfo_JUXpfSl6"/>
+<div class="absolute inset-0 bg-black/10"></div>
+<span class="absolute bottom-1 left-1 bg-white/90 dark:bg-black/60 backdrop-blur px-1.5 py-0.5 rounded text-[10px] font-bold text-slate-900 dark:text-white">
+                        3.4 km
+                    </span>
+</div>
+<!-- Content -->
+<div class="flex-1 flex flex-col justify-between py-1">
+<div>
+<div class="flex items-start justify-between">
+<h3 class="font-bold text-slate-900 dark:text-slate-100 text-lg leading-tight">Whispering Pines</h3>
+<div class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-50 dark:bg-white/10 text-gray-400 hover:text-primary hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">watch</span>
+</div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">landscape</span>
+                            +80m elev
+                        </p>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2.5 py-1 rounded-md bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-bold">Easy</span>
+<span class="px-2.5 py-1 rounded-md bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 text-xs font-medium">Hiking</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Create New Route FAB -->
+<div class="fixed bottom-24 left-0 right-0 px-4 flex justify-center z-10">
+<button class="w-full max-w-sm bg-primary hover:bg-green-600 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-primary/30 flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] active:scale-[0.98]">
+<span class="material-symbols-outlined">add_circle</span>
+                Create New Route
+            </button>
+</div>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 z-20 w-full border-t border-gray-100 dark:border-white/5 bg-white dark:bg-background-dark pb-6 pt-3 px-4">
+<div class="flex justify-between items-end">
+<!-- Explore (Inactive) -->
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-size: 24px;">map</span>
+<p class="text-[10px] font-medium leading-normal tracking-wide">Explore</p>
+</a>
+<!-- Routes (Active) -->
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1" style="font-size: 24px; font-variation-settings: 'FILL' 1;">alt_route</span>
+<p class="text-[10px] font-medium leading-normal tracking-wide">Routes</p>
+</a>
+<!-- Record (Inactive) -->
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors" href="#">
+<div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center -mt-6 shadow-lg shadow-primary/40 text-white mb-1">
+<span class="material-symbols-outlined" style="font-size: 24px;">fiber_manual_record</span>
+</div>
+<p class="text-[10px] font-medium leading-normal tracking-wide">Record</p>
+</a>
+<!-- Activity (Inactive) -->
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-size: 24px;">bar_chart</span>
+<p class="text-[10px] font-medium leading-normal tracking-wide">Activity</p>
+</a>
+<!-- Profile (Inactive) -->
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-size: 24px;">account_circle</span>
+<p class="text-[10px] font-medium leading-normal tracking-wide">Profile</p>
+</a>
+</div>
+</nav>
+</body></html>
