@@ -5,10 +5,10 @@ import { Badge, MetricCard } from '@/components/ui';
 import { useAuthStore } from '@/stores';
 import { mockActivities, mockWeather } from '@/utils/mockData';
 import { formatDistance, formatElevation, formatDuration } from '@/utils/formatUtils';
-import { 
-  MapPin, Calendar, Clock, Terrain, Trophy, Settings,
-  Bell, Help, LogOut, ChevronRight, Star
-} 
+import {
+  MapPin, Calendar, Clock, Mountain, Trophy, Settings,
+  Bell, HelpCircle, LogOut, ChevronRight, Star
+} from 'lucide-react';
 
 export const ProfileScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ export const ProfileScreen: React.FC = () => {
                 variant="primary"
               />
               <MetricCard 
-                icon={<Terrain className="w-4 h-4" />}
+                icon={<Mountain className="w-4 h-4" />}
                 value={((stats?.totalElevation || 0) / 1000).toFixed(1)}
                 unit="km"
                 label="Elevation"
@@ -97,7 +97,7 @@ export const ProfileScreen: React.FC = () => {
             {mockActivities.slice(0, 3).map((activity) => (
               <div key={activity.id} className="card p-3 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                  <Terrain className="w-5 h-5 text-primary" />
+                  <Mountain className="w-5 h-5 text-primary" />
                 </div>
                 <div className="flex-1">
                   <p className="text-white font-medium text-sm">{activity.name}</p>
@@ -122,7 +122,7 @@ export const ProfileScreen: React.FC = () => {
             <ChevronRight className="w-5 h-5 text-gray-600" />
           </button>
           <button className="w-full card p-4 flex items-center gap-3 hover:bg-surface-light transition-colors">
-            <Help className="w-5 h-5 text-gray-400" />
+            <HelpCircle className="w-5 h-5 text-gray-400" />
             <span className="text-white flex-1 text-left">Help & Support</span>
             <ChevronRight className="w-5 h-5 text-gray-600" />
           </button>

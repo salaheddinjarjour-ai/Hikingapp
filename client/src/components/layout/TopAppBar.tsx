@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
-import { ArrowLeft, Settings, Search, Layers, ListFilter } 
+import { ArrowLeft, Settings, Search, Layers, ListFilter } from 'lucide-react';
 
 interface TopAppBarProps {
   title?: string;
